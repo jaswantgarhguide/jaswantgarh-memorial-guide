@@ -417,7 +417,7 @@ html[lang="hi"] h1,html[lang="hi"] h2,html[lang="hi"] h3{font-family:"Inter","No
 .story-title{
   display:block;
   margin-bottom:16px;
-  color:#f3eee2;
+color:#efbd50;
   font-family:"Cormorant Garamond", Georgia, serif;
   font-size:2rem;
   line-height:1.1;
@@ -1154,4 +1154,8 @@ h3,
     width: 100%;
     grid-template-columns: 1fr;
   }
+}
+/* Yellow story headings in English and Hindi */
+#story-body .story-title {
+  color: #efbd50;
 }

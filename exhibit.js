@@ -185,9 +185,21 @@ function renderMap() {
 }
 
 function renderNavigation(){
-  const idx = EXHIBITS.findIndex(x=>x.id===exhibit.id);
-  const prev = EXHIBITS[(idx - 1 + EXHIBITS.length) % EXHIBITS.length];
-  const next = EXHIBITS[(idx + 1) % EXHIBITS.length];
+  const visibleExhibits = EXHIBITS.filter(
+  item => item.id !== "shaurya-bhoomi"
+);
+
+const idx = visibleExhibits.findIndex(
+  item => item.id === exhibit.id
+);
+
+const prev = visibleExhibits[
+  (idx - 1 + visibleExhibits.length) % visibleExhibits.length
+];
+
+const next = visibleExhibits[
+  (idx + 1) % visibleExhibits.length
+];
 
   const prevLink = document.getElementById("prev-link");
   const nextLink = document.getElementById("next-link");
@@ -224,8 +236,18 @@ async function toggleAudio(){
       audioLabel.textContent = SITE_TEXT[state.lang].pauseStory;
       return;
     }catch(e){
-      // If the MP3 file has not been added yet, use browser TTS as a demo fallback.
-    }
+  state.speaking = false;
+  audioIcon.textContent = "▶";
+  audioLabel.textContent = SITE_TEXT[state.lang].listenStory;
+
+  audioStatus.textContent =
+    "Recording error: " + e.name +
+    " | Media code: " + (audio.error?.code || "none") +
+    " | " + (e.message || "Unable to play recording");
+
+  console.error("Narration failed:", audio.currentSrc, e);
+  return;
+}
   }
 
   if("speechSynthesis" in window){

@@ -28,9 +28,9 @@ const SITE_TEXT = {
     previous: "Previous",
     next: "Next",
     audioFallback: "Demo narration is being read by your browser. Replace it with your recorded MP3 later.",
-    audioMissing: "Add the recorded audio file in /assets/audio to use professional narration.",
-    noVideo: "Add your documentary / memorial video file here.",
-    noMap: "Add your battlefield map, site plan or visitor map here."
+    audioMissing: "Narration is currently unavailable.",
+noVideo: "A video of this memorial section will be available soon.",
+noMap: "A reference map will be available soon."
   },
   hi: {
     heroEyebrow: "एक डिजिटल स्मारक अनुभव",
@@ -59,9 +59,9 @@ const SITE_TEXT = {
     previous: "पिछला",
     next: "अगला",
     audioFallback: "डेमो वाचन आपके ब्राउज़र द्वारा चलाया जा रहा है। बाद में रिकॉर्ड किया हुआ MP3 जोड़ें।",
-    audioMissing: "प्रोफेशनल वाचन के लिए /assets/audio में रिकॉर्ड की हुई ऑडियो फ़ाइल जोड़ें।",
-    noVideo: "यहाँ अपना डॉक्यूमेंट्री / स्मारक वीडियो जोड़ें।",
-    noMap: "यहाँ युद्धक्षेत्र मानचित्र, साइट प्लान या आगंतुक मानचित्र जोड़ें।"
+  audioMissing: "वाचन अभी उपलब्ध नहीं है।",
+noVideo: "इस स्मारक स्थल का वीडियो शीघ्र उपलब्ध होगा।",
+noMap: "संदर्भ मानचित्र शीघ्र उपलब्ध होगा।"
   }
 };
 
@@ -71,11 +71,7 @@ const EXHIBITS = [
     group: "history",
     image: "assets/images/nuranag-cover.png",
    gallery: [
-  {
-    src: "assets/images/Nura/battle-map.png",
-    en: "Battlefield overview / tactical map",
-    hi: "नूरानांग युद्धक्षेत्र का मानचित्र"
-  },
+  
   {
     src: "assets/images/Nura/mmg.png",
     en: "Sten Machine Gun MK 5",
@@ -87,7 +83,7 @@ const EXHIBITS = [
     hi: "राइफलमैन जसवंत सिंह रावत की आवक्ष प्रतिमा"
   }
 ],
-    audio: {en:"assets/audio/nura.mp3", hi:"assets/audio/Hindi_Nura.mp3"},
+    audio: {en:"assets/audio/Nura.mp3", hi:"assets/audio/Hindi_Nura.mp3"},
     video: "",
     map: "assets/images/Nura/map.png",
     en: {
@@ -225,12 +221,12 @@ available: "ऐतिहासिक वृत्तांत · मानचि
     image: "assets/images/Chinese/back.png",
     gallery: [
   {
-    src: "assets/images/Chinese/place.jpg",
+    src: "assets/images/Chinese/Place.jpg",
     en: "Chinese Graveyard",
     hi: "चीनी सैनिकों का कब्रिस्तान"
   },
   {
-    src: "assets/images/Chinese/board.jpg",
+    src: "assets/images/Chinese/Board.jpg",
     en: "Historical Inscription",
     hi: "ऐतिहासिक विवरण पट्ट"
   },
@@ -286,10 +282,34 @@ available: "ऐतिहासिक वृत्तांत · मानचि
       card:"कब्रिस्तान के इतिहास, उसके संदर्भ और 1962 के संघर्ष की स्मृति में उसके स्थान को जानें।",
       summary:"चित्रों और द्विभाषी वाचन के साथ इस स्थल का ऐतिहासिक परिचय।",
       heading:"इतिहास की स्मृति का एक स्थल",
-      body:[
-        "यह नमूना पाठ है। इसे कब्रिस्तान, उसके निर्माण, यहाँ दफन सैनिकों और ऐतिहासिक संदर्भ से संबंधित सत्यापित जानकारी से बदलें।",
-        "यह पृष्ठ यह भी समझा सकता है कि इस स्थल को क्यों संरक्षित रखा गया है और यह युद्ध की मानवीय कीमत को समझने में कैसे सहायता करता है।"
-      ],
+     body: [
+  `<span class="story-date">1965</span>
+   <span class="story-title">चीनी कब्रिस्तान का निर्माण</span>
+   इस कब्रिस्तान का निर्माण <strong>1965</strong> में किया गया था।
+   यहाँ 1962 के भारत–चीन युद्ध के बाद
+   <strong>300 से अधिक चीनी सैनिकों के अवशेष</strong> दफनाए गए थे।`,
+
+  `<span class="story-date">17 नवंबर 1962</span>
+   <span class="story-title">नूरानांग का युद्ध</span>
+   <strong>17 नवंबर 1962</strong> को चीन की पीपुल्स लिबरेशन आर्मी
+   ने नूरानांग के भारतीय रक्षात्मक मोर्चों पर आक्रमण किया।
+   <strong>4 गढ़वाल राइफल्स</strong> के सैनिकों ने
+   शत्रु के लगातार तीन आक्रमणों को विफल कर दिया।`,
+
+  `<span class="story-title">युद्ध में हुई क्षति</span>
+   इस कार्रवाई में <strong>500 से अधिक चीनी सैनिक हताहत हुए</strong>।
+   वहीं, <strong>4 गढ़वाल राइफल्स</strong> के
+   <strong>दो सैनिक वीरगति को प्राप्त हुए और चार सैनिक घायल हुए</strong>।`,
+
+  `<span class="story-highlight">
+   नूरानांग के युद्ध की मानवीय कीमत का मूक साक्षी
+   </span>`,
+
+  `<span class="story-title">स्मरण का स्थल</span>
+   आज यह कब्रिस्तान नूरानांग के युद्ध से जुड़ा एक ऐतिहासिक स्थल है।
+   यह उन सैनिकों की स्मृति को संजोए हुए है,
+   जिन्होंने इस संघर्ष में अपने प्राण गँवाए।`
+],
       location:"जसवंतगढ़ स्मारक क्षेत्र",
       time:"4–6 मिनट",
       available:"इतिहास · गैलरी · ऑडियो"
@@ -333,7 +353,7 @@ available: "ऐतिहासिक वृत्तांत · मानचि
    Though the tree now stands lifeless, its roots remain deeply embedded in the soil —
    echoing the spirit of bravery and devotion.`,
 
-  `<span class="story-title">Faith and श्रद्धा</span>
+  `<span class="story-title">Faith and Reverence</span>
    Locals and visitors offer prayers, seek blessings and write letters,
    believing that the brave soul still guards the land.`,
 
@@ -356,10 +376,39 @@ available: "ऐतिहासिक वृत्तांत · मानचि
       card:"इस पवित्र स्मारक बिंदु से जुड़ी कथा, प्रतीकात्मकता और स्मरण को जानें।",
       summary:"चित्रों, पाठ और द्विभाषी ऑडियो के माध्यम से एक स्मरणात्मक कथा।",
       heading:"एक मौन साक्षी",
-      body:[
-        "इस भाग में वृक्ष से जुड़ा सत्यापित विवरण और जसवंतगढ़ आने वाले आगंतुकों के लिए उसका महत्व लिखें।",
-        "इस पृष्ठ का स्वर युद्धक्षेत्र पृष्ठ की तुलना में अधिक स्मरणात्मक हो सकता है, लेकिन सत्यापित इतिहास और बाद की मान्यताओं को स्पष्ट रूप से अलग रखें।"
-      ],
+      heading: "शौर्य और श्रद्धा का मौन साक्षी",
+body: [
+
+  `<span class="story-title">स्मृति का वृक्ष</span>
+   यह वृक्ष गहरा ऐतिहासिक और भावनात्मक महत्व रखता है।
+   ऐसा माना जाता है कि <strong>1962 के भारत–चीन युद्ध</strong> के दौरान
+   गंभीर रूप से घायल होने के बाद
+   <strong>राइफलमैन जसवंत सिंह रावत, महावीर चक्र (मरणोपरांत)</strong>
+   ने इसी वृक्ष की छाँव में अपनी अंतिम साँस ली थी।`,
+
+  `<span class="story-title">समर्पण का अमर प्रतीक</span>
+   वृक्ष भले ही निर्जीव प्रतीत होता हो, लेकिन इसकी जड़ें
+   आज भी धरती की गहराइयों से जुड़ी हुई हैं।
+   यह दृश्य उनके <strong>अटूट समर्पण और अदम्य साहस</strong>
+   की स्मृति को जीवित रखता है।`,
+
+  `<span class="story-title">आस्था और श्रद्धा</span>
+   स्थानीय लोग और पर्यटक यहाँ प्रार्थना करते हैं,
+   आशीर्वाद माँगते हैं और पत्र लिखते हैं।
+   उनकी आस्था है कि इस वीर की आत्मा
+   आज भी इस भूमि की रक्षा कर रही है।`,
+
+  `<span class="story-highlight">
+   यह केवल एक वृक्ष नहीं, बल्कि शौर्य और श्रद्धा का पवित्र प्रहरी है।
+   </span>`,
+
+  `<span class="story-title">पीढ़ियों को प्रेरित करती विरासत</span>
+   यह वृक्ष वीरता, कर्तव्यनिष्ठा और सम्मान की अमिट विरासत
+   का प्रतीक है। जसवंतगढ़ आने वाले आगंतुकों को यह
+   <strong>राइफलमैन जसवंत सिंह रावत के सर्वोच्च बलिदान</strong>
+   का स्मरण कराता है और आने वाली पीढ़ियों को प्रेरित करता है।`
+
+],
       location:"जसवंतगढ़ स्मारक",
       time:"4–6 मिनट",
       available:"कथा · गैलरी · ऑडियो"
@@ -475,6 +524,7 @@ heading: "In Honour of the Brave",
     hi: {
       checkpoint: "खंड 4 · स्मरण",
 title: "अमर शहीद एवं शौर्यवीर",
+      card: "1962 के युद्ध में सर्वोच्च बलिदान देने वाले सैनिकों और अपने पराक्रम से इतिहास रचने वाले शौर्यवीरों को नमन।",
 summary: "शहीदों की नामावली, वीरों की छवियों और वीरता की गाथाओं के माध्यम से 1962 के युद्ध में उनके योगदान को जानें।",
 heading: "वीरों को नमन",
       body: [
@@ -546,7 +596,7 @@ heading: "वीरों को नमन",
     video: "assets/video/nearby-places.mp4",
 map: "assets/images/nearby-places.png",
     en: {
-      checkpoint:"Section 6 · Visitor Experience",
+      checkpoint:"Section 5 · Visitor Experience",
       title:"Explore Nearby",
       card:"Continue your journey with nearby historical, cultural and scenic places around Jaswantgarh.",
       summary:"A practical guide to nearby places of interest, supported by photographs and route information.",
@@ -579,7 +629,7 @@ body: [
       available:"Places · Routes · Gallery · Visitor Info"
     },
     hi: {
-      checkpoint:"खंड 6 · आगंतुक अनुभव",
+      checkpoint:"खंड 5 · आगंतुक अनुभव",
       title:"आसपास भ्रमण करें",
       card:"जसवंतगढ़ के आसपास के ऐतिहासिक, सांस्कृतिक और दर्शनीय स्थानों के साथ अपनी यात्रा जारी रखें।",
       summary:"चित्रों और मार्ग संबंधी जानकारी के साथ आसपास के प्रमुख स्थलों की उपयोगी मार्गदर्शिका।",
