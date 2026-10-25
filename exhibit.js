@@ -2,32 +2,17 @@ const params = new URLSearchParams(location.search);
 const exhibitId = params.get("id") || "nuranang";
 const exhibit = getExhibit(exhibitId);
 // Hide narration and QR buttons in these three sections.
-if (["martyrs", "explore-nearby"].includes(exhibit.id)) {
-  const audioBox = document.querySelector(".audio-box");
-  const audioButton = document.getElementById("audio-toggle");
-  const audioStatus = document.getElementById("audio-status");
-  const qrButton = document.getElementById("show-qr");
-
-  if (audioBox) {
-    audioBox.hidden = false;
-    audioBox.style.removeProperty("display");
-  }
-
-  if (audioButton) audioButton.style.display = "none";
-  if (audioStatus) audioStatus.style.display = "none";
-
-  if (qrButton) {
-    qrButton.hidden = false;
-    qrButton.style.removeProperty("display");
-  }
+if (["martyrs", "shaurya-bhoomi", "explore-nearby"].includes(exhibit.id)) {
+  document.querySelector(".audio-box").style.display = "none";
 }
 
-if (exhibit.id === "shaurya-bhoomi") {
-  const audioBox = document.querySelector(".audio-box");
-  if (audioBox) audioBox.style.display = "none";
-}
+const requestedLang = params.get("lang");
+const savedLang = localStorage.getItem("jaswantgarh-language");
+
 const state = {
-  lang: localStorage.getItem("jaswantgarh-language") || "en",
+  lang: ["hi", "en"].includes(requestedLang)
+      ? requestedLang
+      : (["hi", "en"].includes(savedLang) ? savedLang : "en"),
   speaking: false
 };
 
@@ -43,6 +28,9 @@ function setLanguage(lang){
 
   state.lang = lang;
   localStorage.setItem("jaswantgarh-language", lang);
+  const url = new URL(window.location.href);
+  url.searchParams.set("lang", lang);
+  window.history.replaceState(null, "", url);
   document.documentElement.lang = lang === "hi" ? "hi" : "en";
 
   document.querySelectorAll(".lang-btn").forEach(btn=>{
@@ -115,7 +103,7 @@ function renderGallery(){
     const caption = item[state.lang] || item.en || "";
     return `
       <button class="gallery-item" type="button" data-index="${i}">
-        <img src="${item.src}" alt="${caption}" loading="lazy" decoding="async">
+        <img src="${item.src}" alt="${caption}">
         <span class="gallery-caption">${caption}</span>
       </button>
     `;
@@ -129,63 +117,27 @@ function renderGallery(){
 function renderVideo(){
   const box = document.getElementById("video-box");
   if(exhibit.video){
-    box.innerHTML = `
-  <video controls playsinline preload="metadata" src="${exhibit.video}">
-    Your browser does not support this video.
-  </video>
-`;
+    box.innerHTML = `<video controls playsinline src="${exhibit.video}"></video>`;
   }else{
     box.innerHTML = `<div class="media-placeholder"><strong>${SITE_TEXT[state.lang].videoHeading}</strong>${SITE_TEXT[state.lang].noVideo}</div>`;
   }
 }
 
-function renderMap() {
+function renderMap(){
   const section = document.getElementById("map-section");
   const box = document.getElementById("map-box");
-  const hindi = state.lang === "hi";
 
-  section.style.display = "";
-  box.replaceChildren();
-
-  if (exhibit.map) {
-    const image = document.createElement("img");
-    image.src = exhibit.map;
-    image.alt = exhibit.id === "explore-nearby"
-      ? (hindi
-          ? "आसपास के दर्शनीय स्थल एवं दूरियाँ"
-          : "Nearby places and distances")
-      : SITE_TEXT[state.lang].mapHeading;
-
-    image.loading = "lazy";
-    image.decoding = "async";
-
-    const link = document.createElement("a");
-    link.className = "poster-open-link";
-    link.href = exhibit.map;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = hindi
-      ? "चित्र बड़ा करके देखें ↗"
-      : "Open full-size image ↗";
-
-    box.append(image, link);
-  } else {
-    const placeholder = document.createElement("div");
-    placeholder.className = "media-placeholder";
-
-    const heading = document.createElement("strong");
-    heading.textContent = SITE_TEXT[state.lang].mapHeading;
-
-    const message = document.createElement("span");
-    message.textContent = SITE_TEXT[state.lang].noMap;
-
-    placeholder.append(heading, message);
-    box.appendChild(placeholder);
+  if(exhibit.map){
+    section.style.display = "";
+    box.innerHTML = `<img src="${exhibit.map}" alt="${SITE_TEXT[state.lang].mapHeading}">`;
+  }else{
+    section.style.display = "";
+    box.innerHTML = `<div class="media-placeholder"><strong>${SITE_TEXT[state.lang].mapHeading}</strong>${SITE_TEXT[state.lang].noMap}</div>`;
   }
 }
 
 function renderNavigation(){
-  const visibleExhibits = EXHIBITS.filter(
+const visibleExhibits = EXHIBITS.filter(
   item => item.id !== "shaurya-bhoomi"
 );
 
@@ -236,18 +188,8 @@ async function toggleAudio(){
       audioLabel.textContent = SITE_TEXT[state.lang].pauseStory;
       return;
     }catch(e){
-  state.speaking = false;
-  audioIcon.textContent = "▶";
-  audioLabel.textContent = SITE_TEXT[state.lang].listenStory;
-
-  audioStatus.textContent =
-    "Recording error: " + e.name +
-    " | Media code: " + (audio.error?.code || "none") +
-    " | " + (e.message || "Unable to play recording");
-
-  console.error("Narration failed:", audio.currentSrc, e);
-  return;
-}
+      // If the MP3 file has not been added yet, use browser TTS as a demo fallback.
+    }
   }
 
   if("speechSynthesis" in window){
@@ -314,6 +256,7 @@ function currentSectionUrl(){
   u.search = "";
   u.hash = "";
   u.searchParams.set("id", exhibit.id);
+  u.searchParams.set("lang", "hi");
   return u.toString();
 }
 
